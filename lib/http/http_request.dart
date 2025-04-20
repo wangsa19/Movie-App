@@ -65,6 +65,8 @@ class HttpRequest {
         "$baseUrl/$shows/$id/videos",
         queryParameters: params,
       );
+      print(response.data);
+      print("Trailers URL: $getMoviesUrl/$id/videos");
       if (response.statusCode == 200) {
         return TrailersModel.fromJson(response.data);
       } else {

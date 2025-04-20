@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:movie_app/constant/style.dart';
+import 'package:movie_app/model/hive_tv_model.dart';
 import 'package:movie_app/model/tv/tv_model.dart';
 import 'package:movie_app/screens/reviews.dart';
+import 'package:movie_app/screens/trailers_screen.dart';
 import 'package:movie_app/tv_widgets/similar_tv_widget.dart';
 import 'package:movie_app/tv_widgets/tv_info.dart';
 
@@ -15,6 +18,13 @@ class TvDetailScreen extends StatefulWidget {
 }
 
 class _TvDetailScreenState extends State<TvDetailScreen> {
+  late Box<HiveTVModel> _tvWatchLists;
+  @override
+  void initState() {
+    _tvWatchLists = Hive.box<HiveTVModel>('tv_lists');
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +66,17 @@ class _TvDetailScreenState extends State<TvDetailScreen> {
               child: Container(
                 color: Colors.redAccent,
                 child: TextButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder:
+                            (_) => TrailersScreen(
+                              id: widget.tvShows.id!,
+                              show: "tv",
+                            ),
+                      ),
+                    );
+                  },
                   icon: const Icon(
                     Icons.play_circle_fill_rounded,
                     size: 30,
@@ -64,10 +84,7 @@ class _TvDetailScreenState extends State<TvDetailScreen> {
                   ),
                   label: const Text(
                     'Watch Trailer',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white,
-                    ),
+                    style: TextStyle(fontSize: 15, color: Colors.white),
                   ),
                 ),
               ),
@@ -76,7 +93,18 @@ class _TvDetailScreenState extends State<TvDetailScreen> {
               child: Container(
                 color: Style.secondaryColor,
                 child: TextButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    HiveTVModel newValue = HiveTVModel(
+                      id: widget.tvShows.id!,
+                      rating: widget.tvShows.rating!,
+                      name: widget.tvShows.name!,
+                      backDrop: widget.tvShows.backDrop!,
+                      poster: widget.tvShows.poster!,
+                      overview: widget.tvShows.overview!,
+                    );
+                    _tvWatchLists.add(newValue);
+                    _showAlertDialog();
+                  },
                   icon: const Icon(
                     Icons.list_alt_outlined,
                     size: 30,
@@ -84,10 +112,7 @@ class _TvDetailScreenState extends State<TvDetailScreen> {
                   ),
                   label: const Text(
                     'Add To List',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white,
-                    ),
+                    style: TextStyle(fontSize: 15, color: Colors.white),
                   ),
                 ),
               ),
@@ -148,6 +173,26 @@ class _TvDetailScreenState extends State<TvDetailScreen> {
           fit: BoxFit.cover,
         ),
       ),
+    );
+  }
+
+  void _showAlertDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Added to List"),
+          content: Text(
+            "${widget.tvShows.name!} successfully added to watch list.",
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("OK"),
+            ),
+          ],
+        );
+      },
     );
   }
 }
