@@ -6,8 +6,8 @@ class ReviewsModel {
   ReviewsModel({this.reviews, this.error});
 
   factory ReviewsModel.fromJson(Map<String, dynamic> json) => ReviewsModel(
-    reviews: json['results'] != null
-        ? (json['results'] as List).map((i) => Review.fromJson(i)).toList()
+    reviews: json['reviews'] != null
+        ? (json['reviews'] as List).map((i) => Review.fromJson(i)).toList()
         : null,
     error: "",
   );

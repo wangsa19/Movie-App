@@ -1,4 +1,4 @@
-    import 'package:dio/dio.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:movie_app/model/genre_model.dart';
 import 'package:movie_app/model/movie/movie_details_model.dart';
@@ -45,6 +45,7 @@ class HttpRequest {
         "$baseUrl/$shows/$id/reviews",
         queryParameters: params,
       );
+      print(response.data);
       if (response.statusCode == 200) {
         return ReviewsModel.fromJson(response.data);
       } else {
@@ -83,6 +84,7 @@ class HttpRequest {
         "$getMoviesUrl/$id/similar",
         queryParameters: params,
       );
+      print(response);
       if (response.statusCode == 200) {
         return MovieModel.fromJson(response.data);
       } else {

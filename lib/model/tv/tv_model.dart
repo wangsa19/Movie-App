@@ -21,7 +21,7 @@ class TVModel {
 class TVShows {
   int? id;
   double? rating;
-  String? title;
+  String? name;
   String? backDrop;
   String? poster;
   String? overview;
@@ -29,7 +29,7 @@ class TVShows {
   TVShows({
     this.id,
     this.rating,
-    this.title,
+    this.name,
     this.backDrop,
     this.poster,
     this.overview,
@@ -38,7 +38,7 @@ class TVShows {
   factory TVShows.fromJson(Map<String, dynamic> json) => TVShows(
     id: json['id'],
     rating: json['vote_average'] != null ? (json['vote_average'] as num).toDouble() : 0.0,
-    title: json['title'],
+    name: json['name'],
     backDrop: json['backdrop_path'],
     poster: json['poster_path'],
     overview: json['overview'],

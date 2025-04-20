@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/http/http_request.dart';
 import 'package:movie_app/constant/style.dart';
-import 'package:movie_app/model/movie/movie_model.dart';
+import 'package:movie_app/model/tv/tv_model.dart';
 import 'package:page_indicator/page_indicator.dart';
 
-class NowPlaying extends StatefulWidget {
-  const NowPlaying({super.key});
+class AiringTodayWidget extends StatefulWidget {
+  const AiringTodayWidget({super.key});
 
   @override
-  State<NowPlaying> createState() => _NowPlayingState();
+  State<AiringTodayWidget> createState() => _AiringTodayWidgetState();
 }
 
-class _NowPlayingState extends State<NowPlaying> {
+class _AiringTodayWidgetState extends State<AiringTodayWidget> {
   final PageController _pageController = PageController(initialPage: 0);
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<MovieModel>(
-      future: HttpRequest.getMovies('now_playing'),
-      builder: (context, AsyncSnapshot<MovieModel> snapshot) {
+    return FutureBuilder<TVModel>(
+      future: HttpRequest.getTVShows('airing_today'),
+      builder: (context, AsyncSnapshot<TVModel> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data!.error != null &&
               snapshot.data!.error!.isNotEmpty) {
             return _buildErrorWidget(snapshot.data!.error);
           }
-          return _buildNowPlayingWidget(snapshot.data!);
+          return _buildAiringTodayWidget(snapshot.data!);
         } else if (snapshot.hasError) {
           return _buildErrorWidget(snapshot.error.toString());
         } else {
@@ -66,16 +66,16 @@ class _NowPlayingState extends State<NowPlaying> {
     );
   }
 
-  Widget _buildNowPlayingWidget(MovieModel data) {
-    List<Movie>? movies = data.movies;
+  Widget _buildAiringTodayWidget(TVModel data) {
+    List<TVShows>? tvShows = data.tvShows;
 
-    if (movies!.isEmpty) {
+    if (tvShows!.isEmpty) {
       return SizedBox(
         width: MediaQuery.of(context).size.width,
         height: 220,
         child: const Center(
           child: Text(
-            'No Movies Found',
+            'No TV Shows Found',
             style: TextStyle(fontSize: 20, color: Style.textColor),
           ),
         ),
@@ -89,12 +89,12 @@ class _NowPlayingState extends State<NowPlaying> {
           padding: const EdgeInsets.all(5.0),
           indicatorColor: Style.textColor,
           indicatorSelectorColor: Style.secondaryColor,
-          length: movies.take(5).length,
+          length: tvShows.take(5).length,
           shape: IndicatorShape.circle(size: 10),
           child: PageView.builder(
             controller: _pageController,
             scrollDirection: Axis.horizontal,
-            itemCount: movies.take(5).length,
+            itemCount: tvShows.take(5).length,
             itemBuilder: (context, index) {
               return Stack(
                 children: [
@@ -105,7 +105,7 @@ class _NowPlayingState extends State<NowPlaying> {
                       shape: BoxShape.rectangle,
                       image: DecorationImage(
                         image: NetworkImage(
-                          'https://image.tmdb.org/t/p/original${movies[index].backDrop!}',
+                          'https://image.tmdb.org/t/p/original${tvShows[index].backDrop!}',
                         ),
                         fit: BoxFit.cover,
                       ),
@@ -133,7 +133,7 @@ class _NowPlayingState extends State<NowPlaying> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            movies[index].title!,
+                            tvShows[index].name!,
                             style: const TextStyle(
                               height: 1.5,
                               color: Colors.white,

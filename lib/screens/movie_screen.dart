@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/constant/style.dart';
 import 'package:movie_app/movie_widgets/get_genres.dart';
 import 'package:movie_app/movie_widgets/now_playing_widget.dart';
 import 'package:movie_app/movie_widgets/movies_widget.dart';

@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/constant/style.dart';
-import 'package:movie_app/model/movie/movie_model.dart';
-import 'package:movie_app/movie_widgets/movie_info.dart';
-import 'package:movie_app/movie_widgets/similar_movie.dart';
+import 'package:movie_app/model/tv/tv_model.dart';
 import 'package:movie_app/screens/reviews.dart';
+import 'package:movie_app/tv_widgets/similar_tv_widget.dart';
+import 'package:movie_app/tv_widgets/tv_info.dart';
 
-class MovieDetailScreen extends StatefulWidget {
-  const MovieDetailScreen({super.key, required this.movie, this.request});
-  final Movie movie;
+class TvDetailScreen extends StatefulWidget {
+  const TvDetailScreen({super.key, required this.tvShows, this.request});
+  final TVShows tvShows;
   final String? request;
 
   @override
-  State<MovieDetailScreen> createState() => _MovieDetailScreenState();
+  State<TvDetailScreen> createState() => _TvDetailScreenState();
 }
 
-class _MovieDetailScreenState extends State<MovieDetailScreen> {
+class _TvDetailScreenState extends State<TvDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.movie.title!, overflow: TextOverflow.ellipsis),
+        title: Text(widget.tvShows.name!, overflow: TextOverflow.ellipsis),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -34,16 +34,16 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                   child: Hero(
                     tag:
                         widget.request == null
-                            ? "${widget.movie.id}"
-                            : "${widget.movie.id}+${widget.request!}",
+                            ? "${widget.tvShows.id}"
+                            : "${widget.tvShows.id}+${widget.request!}",
                     child: _buildPoster(),
                   ),
                 ),
               ],
             ),
-            MovieInfo(id: widget.movie.id!),
-            SimilarMovie(id: widget.movie.id!),
-            Reviews(id: widget.movie.id!, request: "movie"),
+            TVsInfo(id: widget.tvShows.id!),
+            SimilarTvWidget(id: widget.tvShows.id!),
+            Reviews(id: widget.tvShows.id!, request: "tv"),
           ],
         ),
       ),
@@ -99,7 +99,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
   }
 
   Widget _buildPoster() {
-    if (widget.movie.backDrop == null) {
+    if (widget.tvShows.backDrop == null) {
       return Container(
         width: 120,
         height: 180,
@@ -116,7 +116,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
         shape: BoxShape.rectangle,
         image: DecorationImage(
           image: NetworkImage(
-            "https://image.tmdb.org/t/p/original${widget.movie.backDrop}",
+            "https://image.tmdb.org/t/p/original${widget.tvShows.backDrop}",
           ),
           fit: BoxFit.cover,
         ),
@@ -125,7 +125,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
   }
 
   Widget _buildBackDrop() {
-    if (widget.movie.backDrop == null) {
+    if (widget.tvShows.backDrop == null) {
       return Container(
         height: 200,
         color: Colors.grey[800],
@@ -143,7 +143,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
         shape: BoxShape.rectangle,
         image: DecorationImage(
           image: NetworkImage(
-            "https://image.tmdb.org/t/p/original${widget.movie.backDrop}",
+            "https://image.tmdb.org/t/p/original${widget.tvShows.backDrop}",
           ),
           fit: BoxFit.cover,
         ),

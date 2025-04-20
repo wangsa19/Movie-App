@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/constant/style.dart';
 import 'package:movie_app/screens/movie_screen.dart';
+import 'package:movie_app/screens/tv_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -29,12 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
         controller: _controller,
         children: const <Widget>[
           MovieScreen(),
-          Center(
-            child: Text(
-              'TVs',
-              style: TextStyle(fontSize: 24, color: Style.textColor),
-            ),
-          ),
+          TvScreen(),
           Center(
             child: Text(
               'Watch Lists',
