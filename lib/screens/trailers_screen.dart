@@ -67,38 +67,41 @@ class _TrailersScreenState extends State<TrailersScreen> {
 
   Widget _buildTrailersWidget(TrailersModel data) {
     List<Video>? videos = data.trailers;
-    return Stack(
-      children: <Widget>[
-        Center(
-          child:
-              (videos != null && videos.isNotEmpty && videos[0].key != null)
-                  ? YoutubePlayer(
-                    controller: YoutubePlayerController(
-                      initialVideoId: videos[0].key!,
-                      flags: const YoutubePlayerFlags(
-                        hideControls: true,
-                        autoPlay: true,
+    return Container(
+      color: Colors.black,
+      child: Stack(
+        children: <Widget>[
+          Center(
+            child:
+                (videos != null && videos.isNotEmpty && videos[0].key != null)
+                    ? YoutubePlayer(
+                      controller: YoutubePlayerController(
+                        initialVideoId: videos[0].key!,
+                        flags: const YoutubePlayerFlags(
+                          hideControls: true,
+                          autoPlay: true,
+                        ),
+                      ),
+                    )
+                    : const Text(
+                      "Video tidak tersedia",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                        decoration: TextDecoration.none,
                       ),
                     ),
-                  )
-                  : const Text(
-                    "Video tidak tersedia",
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-        ),
-        Positioned(
-          top: 40,
-          right: 20,
-          child: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            icon: Icon(Icons.close, color: Colors.white, size: 30),
           ),
-        ),
-      ],
+          Positioned(
+            top: 40,
+            right: 20,
+            child: IconButton(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: Icon(Icons.close, color: Colors.white, size: 30),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
